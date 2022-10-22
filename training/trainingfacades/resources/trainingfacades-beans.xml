@@ -19,4 +19,9 @@
 		<property name="code" type="String"/>
 		<property name="name" type="String"/>
 	</bean>
+	<bean class="com.hybris.training.facades.user.data.NameData">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
 </beans>

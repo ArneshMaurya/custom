@@ -551,4 +551,11 @@
 		<property name="itemCleanupHooks" ref="csTicketRetentionHooks"/>
 		<property name="ticketBusinessService" ref="ticketBusinessService"/>
 	</bean>
+
+	<bean id="customerNameImpl" class="com.hybris.training.core.dao.impl.CustomerNameImpl">
+	</bean>
+
+	<bean id="customerNameService" class="com.hybris.training.core.service.CustomerNameService">
+	</bean>
+
 </beans>
