@@ -34,9 +34,143 @@
         </enumtype>
     </enumtypes>
 
+    <relations>
+
+        <relation code="EmployTable2JobTableRelation" generate="true" localized="false" autocreate="true">
+            <sourceElement type="jobTable" qualifier="jobTable" cardinality="one">
+                <modifiers read="true" write="true" search="true" optional="false" unique="true"/>
+            </sourceElement>
+            <targetElement type="employTable" qualifier="employTable" cardinality="many">
+                <modifiers read="true" write="true" search="true" partof="true"/>
+            </targetElement>
+        </relation>
+
+        <relation code="Home2roomsRel" generate="true" localized="false" autocreate="true">
+            <sourceElement type="hybrisTubeHome" qualifier="hybrisTubeHome" cardinality="one">
+                <modifiers read="true" write="true" search="true" optional="false" unique="true"/>
+            </sourceElement>
+            <targetElement type="hybristubeRoom" qualifier="hybristubeRoom" cardinality="many">
+                <modifiers read="true" write="true" search="true" partof="true"/>
+            </targetElement>
+        </relation>
+
+
+    </relations>
     <itemtypes>
 
         <!-- Add your item definitions here -->
+        <itemtype code="EmployTable"
+                  autocreate="true"
+                  generate="true">
+            <deployment table="EmployTable" typecode="12069"/>
+            <attributes>
+                <attribute qualifier="empId" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="empkey" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="job" type="java.lang.String">
+                    <defaultvalue>Hello</defaultvalue>
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="false" write="true"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="empIdKey" unique="true">
+                    <key attribute="empId"/>
+                    <key attribute="empkey"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PersonTable"
+                  autocreate="true"
+                  generate="true">
+            <deployment table="PersonTable" typecode="12070"/>
+            <attributes>
+                <attribute qualifier="personId" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="personkey" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="job" type="java.lang.String">
+                    <defaultvalue>Hello</defaultvalue>
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="false" write="true"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="personIdKey" unique="true">
+                    <key attribute="personId"/>
+                    <key attribute="personkey"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="JobTable"
+                  autocreate="true"
+                  generate="true">
+            <deployment table="JobTable" typecode="12071"/>
+            <attributes>
+                <attribute qualifier="jobId" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="jobkey" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="job" type="java.lang.String">
+                    <defaultvalue>Hello</defaultvalue>
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="false" write="true"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="jobIdKey" unique="true">
+                    <key attribute="jobId"/>
+                    <key attribute="jobkey"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="HybrisTubeHome"
+                  autocreate="true"
+                  generate="true">
+            <deployment table="HybrisTubeHome" typecode="12072"/>
+            <attributes>
+                <attribute qualifier="homeid" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="homename" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <itemtype code="HybrisTubeRoom"
+                  autocreate="true"
+                  generate="true">
+            <deployment table="HybrisTubeRoom" typecode="10415"/>
+            <attributes>
+                <attribute qualifier="roomid" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+                <attribute qualifier="roomname" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" initial="true" write="false" unique="true"/>
+                </attribute>
+            </attributes>
+        </itemtype>
 
 
         <!-- TypeGroups are for structure of this file only -->
