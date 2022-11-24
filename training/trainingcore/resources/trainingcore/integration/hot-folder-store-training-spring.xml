@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:int="http://www.springframework.org/schema/integration"
+	   xmlns:file="http://www.springframework.org/schema/integration/file"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/integration
+	http://www.springframework.org/schema/integration/spring-integration.xsd
+	http://www.springframework.org/schema/integration/file
+	http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config/>
+	<!-- Config a base directory -->
+	<bean id="baseDirectoryTraining" class="java.lang.String">
+		<constructor-arg value="#{baseDirectory}/${tenantId}/training" />
+	</bean>
+
+	<!-- Scan for files inside the base directory with names matches the pattern ^(.*)-(\d+)\.csv -->
+	<file:inbound-channel-adapter id="batchFilesTraining" directory="#{baseDirectoryTraining}"
+								  filename-regex="^(.*)-(\d+)\.csv"
+								  comparator="fileOrderComparator">
+		<!--  Periodic trigger in milliseconds -->
+		<int:poller fixed-rate="1000" />
+	</file:inbound-channel-adapter>
+	<!-- Move the file to processing and start the flow -->
+	<file:outbound-gateway request-channel="batchFilesTraining" reply-channel="batchFilesTrainingProc"
+						   directory="#{baseDirectoryTraining}/processing"
+						   delete-source-files="true" />
+	<!-- Initialize the batch header with relevant information -->
+	<int:service-activator input-channel="batchFilesTrainingProc" output-channel="batchFilesHeaderInit"
+						   ref="trainingHeaderSetupTask"
+						   method="execute" />
+
+	<bean id="trainingHeaderSetupTask" class="de.hybris.platform.acceleratorservices.dataimport.batch.task.HeaderSetupTask">
+		<property name="catalog" value="trainingProductCatalog" />
+		<property name="net" value="false" />
+		<property name="storeBaseDirectory" ref="baseDirectoryTraining" />
+	</bean>
+
+	<!-- UnitModel impex converter -->
+	<bean id="unitConverter" class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+		<property name="header">
+			<value>
+				#{defaultImpexProductHeader}
+				INSERT_UPDATE Unit;unitType[unique=true];code[unique=true];name[lang=$lang];conversion
+			</value>
+		</property>
+		<property name="impexRow">
+			<value>;{+0};{+1};{2};{3}</value>
+		</property>
+	</bean>
+	<!-- UnitModel impex converter mapping to unit prefix -->
+	<bean id="unitConverterMapping"
+		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+		  p:mapping="unit"
+		  p:converter-ref="unitConverter"/>
+
+</beans>
