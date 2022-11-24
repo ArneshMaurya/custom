@@ -15,6 +15,8 @@
         <collectiontype code="GenderList" elementtype="Gender" autocreate="true" generate="true" type="list"/>
         <collectiontype code="SwatchColorSet" elementtype="SwatchColorEnum" autocreate="true" generate="true"
                         type="set"/>
+        <collectiontype code="JobCollection" elementtype="JobTable" autocreate="true" generate="true"
+                        type="set"/>
     </collectiontypes>
 
     <enumtypes>
@@ -35,6 +37,15 @@
     </enumtypes>
 
     <relations>
+
+<!--        <relation code="Person2EmplyRel" generate="true" localized="false" autocreate="true"> //one to one is not allowed like this
+            <sourceElement type="PersonTable" qualifier="personTable" cardinality="one">
+                <modifiers read="true" write="true" search="true" optional="false" unique="true"/>
+            </sourceElement>
+            <targetElement type="employTable" qualifier="employTable" cardinality="one">
+                <modifiers read="true" write="true" search="true" partof="true"/>
+            </targetElement>
+        </relation>-->
 
         <relation code="EmployTable2JobTableRelation" generate="true" localized="false" autocreate="true">
             <sourceElement type="jobTable" qualifier="jobTable" cardinality="one">
@@ -104,6 +115,15 @@
                     <persistence type="property"/>
                     <modifiers optional="false" initial="false" write="true"/>
                 </attribute>
+                <attribute qualifier="emply" type="employTable">
+                    <persistence type="property"/>
+                    <modifiers initial="false" write="true"/>
+                </attribute>
+                <attribute qualifier="jobs" type="JobCollection">
+                    <persistence type="property"/>
+                    <modifiers optional="true" initial="false" write="true"/>
+                </attribute>
+
             </attributes>
             <indexes>
                 <index name="personIdKey" unique="true">
