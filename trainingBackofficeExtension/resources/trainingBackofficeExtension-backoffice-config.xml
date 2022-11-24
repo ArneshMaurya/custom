@@ -11,10 +11,17 @@
 -->
 <config xmlns="http://www.hybris.com/cockpit/config">
 
-	<!-- trainingBackofficeExtension UI configuration should be provided here -->
+    <!-- trainingBackofficeExtension UI configuration should be provided here -->
 
-	<!--<context component="component-code" module="trainingBackofficeExtension">-->
-		<!--Please check documentation for code snippets for specific components-->
-	<!--</context>-->
+    <context component="editor-area" type="Customer" merge-by="type" module="trainingBackofficeExtension">
+        <editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+            <editorArea:tab name="hmc.tab.custom.personal" position="3">
+                <editorArea:section name="hmc.section.customer.attributes">
+                    <editorArea:attribute qualifier="contactEmail"/>
+                    <editorArea:attribute qualifier="originalUid"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
 
 </config>
